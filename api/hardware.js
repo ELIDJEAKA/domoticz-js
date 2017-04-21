@@ -48,3 +48,6 @@ Hardware.prototype.CreateVirtual = function(name, callback) {
     url.addSearch("name", name);
     this.domoticz._request(url, callback);
 };
+
+
+module.exports = Hardware

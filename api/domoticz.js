@@ -38,7 +38,7 @@ function DomoticzJs(config) {
 	    username: undefined,
 	    password: undefined
 	};
-	this.config = this._buildConfig(this.config, config);
+	this.config = _.defaults(config, this.config);
 	
 	this.device = new Device(this);
 	this.hardware = new Hardware(this);
@@ -70,7 +70,7 @@ DomoticzJs.prototype._buildConfig = function (c1, c2) {
  *  Create an URI JS object to the Domoticz JSON API
  **/
 DomoticzJs.prototype._getUrl = function() {
-    var url = URI(this.config.protocol + "://" + this.config.server + "/json.htm");
+    var url = URI(this.config.protocol + "://" + this.config.host + "/json.htm");
     if(this.config["port"] && this.config["port"] != "") {
         url.port(this.config["port"]);
     }
