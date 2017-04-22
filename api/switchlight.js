@@ -1,6 +1,6 @@
 'use strict';
 
-/** 
+/**
  * class SwitchLight
  *
  *  Copyright 2015 Tyneo Consulting.
@@ -82,6 +82,21 @@ SwitchLight.prototype.toggle = function(idx, callback) {
     url.addSearch("switchcmd", "Toggle");
     this.domoticz._request(url, callback);
 };
+
+/** section: switchlight
+ *  Return list of all lights
+ *  domoticz#getAll(callback) -> null
+ *      - callback (Function): function to call when the request is finished with an error as first argument and result data as second argument.
+ *
+ * /json.htm?type=command&param=getlightswitches
+ **/
+SwitchLight.prototype.getAll = function(callback) {
+    var url  = this.domoticz._getUrl();
+    url.addSearch("type", "command");
+    url.addSearch("param", 'getlightswitches');
+    this.domoticz._request(url, callback);
+};
+
 
 
 module.exports = SwitchLight;
