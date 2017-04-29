@@ -42,9 +42,11 @@ SwitchLight.prototype.turnOn = function(idx, callback) {
  **/
 SwitchLight.prototype.turnOff = function(idx, callback) {
     var url  = this.domoticz._getUrl();
-    url.addSearch("type", "command").addSearch("param", 'switchlight');
+    url.addSearch("type", "command")
+    .addSearch("param", 'switchlight');
     url.addSearch("idx", idx);
     url.addSearch("switchcmd", "Off");
+    //console.log(url)
     this.domoticz._request(url, callback);
 };
 
@@ -88,7 +90,7 @@ SwitchLight.prototype.toggle = function(idx, callback) {
  *  domoticz#getAll(callback) -> null
  *      - callback (Function): function to call when the request is finished with an error as first argument and result data as second argument.
  *
- * /json.htm?type=command&param=getlightswitches
+ * /json.htm?type=command&param=switchlight&idx=99&switchcmd=Toggle
  **/
 SwitchLight.prototype.getAll = function(callback) {
     var url  = this.domoticz._getUrl();
@@ -96,6 +98,67 @@ SwitchLight.prototype.getAll = function(callback) {
     url.addSearch("param", 'getlightswitches');
     this.domoticz._request(url, callback);
 };
+
+
+/** section: switchLights
+ * Add timer to a switchLight
+ *  switchLight#addTimer(idx, active, timertype, date, hour, min, randomness, command, level,hue, days,mday,month,occurence,callback) -> null
+ *      - idx (Integer): index of your switchLight/group.
+ *      - active (Boolean):  true/false
+ *      - timertype (Integer):  0 = Before Sunrise, 1 = After Sunrise, 2 = On Time, 3 = Before Sunset, 4 = After Sunset, 5 = Fixed Date/Time
+ *      - date (String):  MM-DD-YYYY
+ *      - hour (Integer):  hour
+ *      - min (Integer):  minute
+ *      - randomness (Boolean):  true/false
+ *      - command (Boolean):  0/1
+ *      - level (Integer):  0..100 (%)
+ *      - hue (Integer):  hue
+ *      - days (String):  0x80 = Everyday, 0x100 = Weekdays, 0x200 = Weekends, 0x01 = Mon, 0x02 = Tue, 0x04 = Wed, 0x08 = Thu, 0x10 = Fri, 0x20 = Sat, 0x40 = Sun
+ *      - mday (Integer):  mday
+ *      - month (Integer):  month
+ *      - occurence (Integer):  occurence
+ *      - callback (Function): function to call when the request is finished with an error as first argument and result data as second argument.
+ *
+ * /json.htm?type=command&param=addtimer&idx=number&active=&timertype=&date=&hour=&min=&randomness=&command=&level=&hue=&days=&mday=&month=&occurence=
+ **/
+SwitchLight.prototype.addTimer = function(idx, active, timertype, date, hour, min, randomness,command, level,hue, days,mday,month,occurence, callback) {
+    var url  = this.domoticz._getUrl();
+    url.addSearch("type", "command").addSearch("param", "addtimer");
+    url.addSearch("idx", idx);
+    url.addSearch("active", active ? "true" : "false");
+    url.addSearch("timertype", timertype);
+    url.addSearch("date", date);
+    url.addSearch("hour", hour);
+    url.addSearch("min", min);
+    url.addSearch("randomness", randomness ? "true" : "false");
+    url.addSearch("command", command ? 0 : 1);
+    url.addSearch("level", level);
+    url.addSearch("hue", hue);
+    url.addSearch("days", days);
+    url.addSearch("mday", mday);
+    url.addSearch("month", month);
+    url.addSearch("occurence", occurence);
+    this.domoticz._request(url, callback);
+};
+
+/** section: switchLight
+ *  Delete a timer to  a switchLight
+ *  switchLight#clearTimers(idx, callback) -> null
+ *      - idx (Integer): id of your switchLight timer(This number can be found in the switchLight timer tab in the column "IDX")
+ *      - callback (Function): function to call when the request is finished with an error as first argument and result data as second argument.
+ *
+ * /json.htm?type=command&param=cleartimers&idx=number
+ **/
+SwitchLight.prototype.clearTimers =function(idx,callback){
+
+    var url = this.domoticz._getUrl()
+    url.addSearch("type", "command").addSearch("param", "cleartimers");
+    url.addSearch("idx",idx);
+    //console.log(url)
+    this.domoticz._request(url,callback);
+};
+
+
 
 
 

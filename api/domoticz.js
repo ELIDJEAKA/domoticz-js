@@ -12,7 +12,7 @@ var Device = require('./device');
 var Hardware = require('./hardware');
 var UserVariable = require('./uservariable');
 
-/** 
+/**
  * class DomoticzJs
  *
  *  Copyright 2015 Tyneo Consulting.
@@ -33,13 +33,13 @@ function DomoticzJs(config) {
 	if (!(this instanceof DomoticzJs)) return new DomoticzJs(config);
 	this.config = {
 	    protocol: 'http',
-	    host: '',
+	    host: '2222',
 	    port: 80,
 	    username: undefined,
 	    password: undefined
 	};
 	this.config = _.defaults(config, this.config);
-	
+
 	this.device = new Device(this);
 	this.hardware = new Hardware(this);
 	this.system = new System(this);
@@ -96,6 +96,7 @@ DomoticzJs.prototype._getUrl = function() {
  *  Send an HTTP request to the server and pass the result to a callback.
  **/
 DomoticzJs.prototype._request = function(url, callback) {
+    // console.log(url)
     function callCallback(err, result) {
         if (callback && _.isFunction(callback) ) {
             var cb = callback;
